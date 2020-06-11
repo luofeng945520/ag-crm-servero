@@ -120,17 +120,29 @@ public class CodeGenerator {
 
 
     public static void main(String[] args) {
-
         String userDir = System.getProperty("user.dir");
         System.out.println("项目所处目录：" + userDir);
         userDir = "G:/";
+        generator(userDir);
+
+    }
+
+    /**
+     * @Description: 生成器
+     * @Param [dir]
+     * @Return void
+     * @throws
+     * 2020/6/12 0:42
+     * @Author milk
+     */
+    public static void generator(String dir) {
         //代码生成器
         AutoGenerator generator = new AutoGenerator();
 
         //全局配置
         GlobalConfig globalConfig = new GlobalConfig();
         //设置文件输出目录
-        globalConfig.setOutputDir(userDir + PROJECT_DIR);
+        globalConfig.setOutputDir(dir + PROJECT_DIR);
         //作者
         globalConfig.setAuthor("milk");
         //是否打开输出目录
@@ -222,9 +234,6 @@ public class CodeGenerator {
         generator.setTemplateEngine(new FreemarkerTemplateEngine());
 
         generator.execute();
-
-
     }
-
 
 }
