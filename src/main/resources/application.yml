@@ -1,0 +1,36 @@
+#服务器端口
+server:
+  port: 8070
+ # servlet:
+ #   context-path: /ag-crm-server
+#hikari 配置
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 1000
+      validation-timeout: 1000
+      idle-timeout: 30000
+      max-lifetime: 60000
+      maximum-pool-size: 3
+      minimum-idle: 1
+  profiles:
+    active: dev
+#mybatis 配置
+mybatis:
+  check-config-location: false
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
+    lazy-loading-enabled: false
+    multiple-result-sets-enabled: true
+    use-column-label: true
+    use-generated-keys: true
+    auto-mapping-behavior: full
+    default-executor-type: reuse
+    default-statement-timeout: 25000
+    safe-row-bounds-enabled: false
+    map-underscore-to-camel-case: true
+    local-cache-scope: session
+    jdbc-type-for-null: other
+logging:
+  config: classpath:logback.xml
