@@ -41,7 +41,8 @@ public class FirstController {
 
     @RequestMapping(value = "/tests", produces = "application/json")
     @ResponseBody
-    public ResultData tests(HttpServletRequest request, HttpServletResponse response, String param) throws Exception {
+    public ResultData tests(HttpServletRequest request, HttpServletResponse response, String param)  {
+        //测试一手
         return UtilParm.resultData(0,"fail",FirstController.getMvcRequestMappingList(new String[]{"com.cn.ag.controller"}));
     }
 
