@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
-import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
@@ -144,83 +142,77 @@ public class CodeGenerator {
         //全局配置
         GlobalConfig globalConfig = new GlobalConfig();
         //设置文件输出目录
-        globalConfig.setOutputDir(dir + PROJECT_DIR)
-                    //作者
-                    .setAuthor("milk")
-                    //是否打开输出目录
-                    .setOpen(false)
-                    //开启 BaseResultMap
-                    .setBaseResultMap(true)
-                    //开启 BaseColumnList
-                    .setBaseColumnList(true)
-                    //设置Service层名称
-                    .setServiceName("%sService")
-                    //设置ServiceImpl层名称
-                    .setServiceImplName("%sServiceImpl");
+        globalConfig.setOutputDir(dir + PROJECT_DIR);
+        //作者
+        globalConfig.setAuthor("milk");
+        //是否打开输出目录
+        globalConfig.setOpen(false);
+        //开启 BaseResultMap
+        globalConfig.setBaseResultMap(true);
+        //开启 BaseColumnList
+        globalConfig.setBaseColumnList(true);
         generator.setGlobalConfig(globalConfig);
 
         //数据源配置
         DataSourceConfig sourceConfig = new DataSourceConfig();
         //设置数据库类型
-        sourceConfig.setDbType(DbType.MYSQL)
-                    //设置数据库
-                    .setUrl(URL)
-                    .setDriverName(DRIVER_NAME)
-                    .setUsername(USERNAME)
-                    .setPassword(PASSWORD);
-                    //设置自己的类型转换
-//                    .setTypeConvert();
+        sourceConfig.setDbType(DbType.MYSQL);
+        //设置数据库
+        sourceConfig.setUrl(URL);
+        sourceConfig.setDriverName(DRIVER_NAME);
+        sourceConfig.setUsername(USERNAME);
+        sourceConfig.setPassword(PASSWORD);
         generator.setDataSource(sourceConfig);
 
         //配置 包路径
         PackageConfig packageConfig = new PackageConfig();
         //父包名
-        packageConfig.setParent(PARENT_PATH)
-                    //实体类 包路径
-                     .setEntity(DOMAIN_PATH)
-                    //Mapper接口 包路径
-                     .setMapper(MAPPER_PATH)
-                    //MapperXML 包路径
-                     .setXml(MAPPER_XML_PATH)
-                    //Service接口 包路径
-                     .setService(SERVICE_PATH)
-                    //Service实现类 包路径
-                     .setServiceImpl(SERVICE_IMPL_PATH)
-                    //Controller 包路径
-                     .setController(CONTROL_PATH);
+        packageConfig.setParent(PARENT_PATH);
+        //实体类 包路径
+        packageConfig.setEntity(DOMAIN_PATH);
+        //Mapper接口 包路径
+        packageConfig.setMapper(MAPPER_PATH);
+        //MapperXML 包路径
+        packageConfig.setXml(MAPPER_XML_PATH);
+        //Service接口 包路径
+        packageConfig.setService(SERVICE_PATH);
+        //Service实现类 包路径
+        packageConfig.setServiceImpl(SERVICE_IMPL_PATH);
+        //Controller 包路径
+        packageConfig.setController(CONTROL_PATH);
 //        packageConfig.setPathInfo();
         generator.setPackageInfo(packageConfig);
 
         //配置自定义代码模板
         TemplateConfig templateConfig = new TemplateConfig();
-        templateConfig.setEntity(DOMAIN_TEMPLATE_PATH)
-                      .setMapper(MAPPER_TEMPLATE_PATH)
-                      .setXml(MAPPER_XML_TEMPLATE_PATH)
-                      .setService(SERVICE_TEMPLATE_PATH)
-                      .setServiceImpl(SERVICE_IMPL_TEMPLATE_PATH)
-                      .setController(CONTROL_TEMPLATE_PATH);
+        templateConfig.setEntity(DOMAIN_TEMPLATE_PATH);
+        templateConfig.setMapper(MAPPER_TEMPLATE_PATH);
+        templateConfig.setXml(MAPPER_XML_TEMPLATE_PATH);
+        templateConfig.setService(SERVICE_TEMPLATE_PATH);
+        templateConfig.setServiceImpl(SERVICE_IMPL_TEMPLATE_PATH);
+        templateConfig.setController(CONTROL_TEMPLATE_PATH);
         generator.setTemplate(templateConfig);
 
         //配置 策略
         StrategyConfig strategy = new StrategyConfig();
         //表名 下划线转驼峰命名
-        strategy.setNaming(NamingStrategy.underline_to_camel)
-                //字段名 下划线转驼峰命名
-                .setColumnNaming(NamingStrategy.underline_to_camel)
-                //设置父类类型
-        //        strategy.setSuper...Class()
-                //使用 lombok 插件
-                .setEntityLombokModel(false)
-                //Controller层 使用RestController注解
-                .setRestControllerStyle(false)
-                //需要包含的表名
-                .setInclude(scanner("表名").split(","))
-                //需要排除的表名
-        //        strategy.setExclude();
-                //驼峰转连字符
-                .setControllerMappingHyphenStyle(true)
-                //表名前缀  生成类文件会去掉表前缀
-                .setTablePrefix(TABLE_PREFIX);
+        strategy.setNaming(NamingStrategy.underline_to_camel);
+        //字段名 下划线转驼峰命名
+        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+        //设置父类类型
+//        strategy.setSuper...Class()
+        //使用 lombok 插件
+        strategy.setEntityLombokModel(false);
+        //Controller层 使用RestController注解
+        strategy.setRestControllerStyle(false);
+        //需要包含的表名
+        strategy.setInclude(scanner("表名").split(","));
+        //需要排除的表名
+//        strategy.setExclude();
+        //驼峰转连字符
+        strategy.setControllerMappingHyphenStyle(true);
+        //表名前缀  生成类文件会去掉表前缀
+        strategy.setTablePrefix(TABLE_PREFIX);
         generator.setStrategy(strategy);
 
 
@@ -230,17 +222,12 @@ public class CodeGenerator {
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<>();
-                map.put("extendMapper","BaseMapper");
-                map.put("String","String");
-                map.put("prefix","#{");
-                map.put("suffix","}");
-                map.put("whereParam","${whereParam}");
-                map.put("startIndex","${startIndex}");
-                map.put("endIndex","${endIndex}");
+                map.put("z", "字符串");
+                map.put("x", true);
+                map.put("c", 2);
                 this.setMap(map);
             }
         };
-
         generator.setCfg(injectionConfig);
 
         //设置模板引擎

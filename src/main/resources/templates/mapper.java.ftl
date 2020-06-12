@@ -3,11 +3,7 @@ package ${package.Mapper};
 import ${package.Entity}.${entity};
 import ${superMapperClassPackage};
 
-import java.util.List;
-import java.util.Map;
-
 /**
-* @Date ${date}
 * @author ${author}
 */
 <#if kotlin>
@@ -15,26 +11,5 @@ interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 
-    <#list table.fields as field>
-        <#if field.keyFlag>
-    int deleteByPrimaryKey(${field.propertyType} id);
-
-    int updateByPrimaryKey(${entity} record);
-
-    ${entity} selectByPrimaryKey(${field.propertyType} id);
-
-    int updateByPrimaryKeySelective(${entity} record);
-
-        </#if>
-    </#list>
-    int insert(${entity} record);
-
-    int insertSelective(${entity} record);
-
-    int insertBatch(List<${entity}> recordList);
-
-    int countSize(Map<${cfg.String},Object> map)
-
-    List<${entity}> selectByPaging(Map<${cfg.String},Object> map);
 }
 </#if>
