@@ -19,7 +19,7 @@
             </#list>
             <#list table.fields as field>
                 <#if !field.keyFlag><#--生成普通字段 -->
-                    <result column="${field.name}" property="${field.propertyName}" jdbcType="${field.columnType}"  />
+                    <result column="${field.name}" property="${field.propertyName}" jdbcType="${field.columnType}"/>
                 </#if>
             </#list>
         </resultMap>
@@ -99,7 +99,7 @@
     </insert>
 
     <insert id="insertSelective" parameterType="${package.Entity}.${entity}" >
-        insert into ${table.fieldNames}
+        insert into  ${table.name}
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <#list table.fields as field>
                 <if test="${field.propertyName} != null" >
@@ -116,7 +116,7 @@
         </trim>
     </insert>
 
-    <insert id="insertBatch" parameterType="List" >
+    <insert id="insertBatch" parameterType="java.util.List" >
         insert into ${table.name}
         (<#list table.commonFields as field1>${field1.name},</#list>${table.fieldNames})
         values
@@ -146,4 +146,51 @@
             limit ${cfg.startIndex},${cfg.endIndex}
         </if>
     </select>
+
+
+    <#if baseColumnList>
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List_Join">
+            <#list table.commonFields as field>
+                ${table.name}.${field.name},
+            </#list>
+            <#list table.fields as field>
+                ${table.name}.${field.name}<#sep>,</#sep>
+            </#list>
+        </sql>
+
+
+        <select id="selectByPagingFromContinuous" parameterType="map" resultMap="BaseResultMap">
+            select
+            <include refid="Base_Column_List_Join"/>
+            from ${table.name}
+            <if test="jointable != null">
+                ${cfg.jointable}
+            </if>
+            <where>
+                <if test="whereParam != null">
+                    ${cfg.whereParam}
+                </if>
+                <if test="startIndex != null and endIndex != null">
+                    limit ${cfg.startIndex},${cfg.endIndex}
+                </if>
+            </where>
+        </select>
+
+        <select id="countSizeFromContinuous" resultType="java.lang.Integer" parameterType="map">
+            select count(1) from ${table.name}
+            <if test="jointable != null">
+                ${cfg.jointable}
+            </if>
+            <where>
+                <if test="whereParam != null">
+                    ${cfg.whereParam}
+                </if>
+            </where>
+        </select>
+
+    </#if>
+
+
+
 </mapper>

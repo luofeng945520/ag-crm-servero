@@ -33,7 +33,7 @@ public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 
     int insertBatch(List<${entity}> recordList);
 
-    int countSize(Map<${cfg.String},Object> map)
+    int countSize(Map<${cfg.String},Object> map);
 
     List<${entity}> selectByPaging(Map<${cfg.String},Object> map);
 }

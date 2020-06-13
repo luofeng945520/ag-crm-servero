@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
-import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
@@ -144,7 +142,7 @@ public class CodeGenerator {
         //全局配置
         GlobalConfig globalConfig = new GlobalConfig();
         //设置文件输出目录
-        globalConfig.setOutputDir(dir + PROJECT_DIR)
+        globalConfig.setOutputDir(dir )//+ PROJECT_DIR
                     //作者
                     .setAuthor("milk")
                     //是否打开输出目录
@@ -167,9 +165,9 @@ public class CodeGenerator {
                     .setUrl(URL)
                     .setDriverName(DRIVER_NAME)
                     .setUsername(USERNAME)
-                    .setPassword(PASSWORD);
+                    .setPassword(PASSWORD)
                     //设置自己的类型转换
-//                    .setTypeConvert();
+                    .setTypeConvert(new MyTypeConvert());
         generator.setDataSource(sourceConfig);
 
         //配置 包路径
@@ -220,7 +218,9 @@ public class CodeGenerator {
                 //驼峰转连字符
                 .setControllerMappingHyphenStyle(true)
                 //表名前缀  生成类文件会去掉表前缀
-                .setTablePrefix(TABLE_PREFIX);
+                .setTablePrefix(TABLE_PREFIX)
+                //设置实体类的父类
+                .setSuperEntityClass("");
         generator.setStrategy(strategy);
 
 
@@ -237,6 +237,7 @@ public class CodeGenerator {
                 map.put("whereParam","${whereParam}");
                 map.put("startIndex","${startIndex}");
                 map.put("endIndex","${endIndex}");
+                map.put("jointable","${jointable}");
                 this.setMap(map);
             }
         };

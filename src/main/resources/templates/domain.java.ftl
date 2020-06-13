@@ -1,4 +1,4 @@
-package ${package.Entity}
+package ${package.Entity};
 
 <#list table.importPackages as pkg>
 import ${pkg};
@@ -20,21 +20,21 @@ import lombok.experimental.Accessors;
  *
  * @author ${author}
  */
-<#if entityLombokModel>
-@Data
-    <#if superEntityClass??>
-@EqualsAndHashCode(callSuper = true)
-    <#else>
-@EqualsAndHashCode(callSuper = false)
-    </#if>
-@Accessors(chain = true)
-</#if>
-<#if table.convert>
-@TableName("${table.name}")
-</#if>
-<#if swagger2>
-@ApiModel(value="${entity}对象",description="${table.comment!}")
-</#if>
+<#--<#if entityLombokModel>-->
+<#--@Data-->
+<#--    <#if superEntityClass??>-->
+<#--@EqualsAndHashCode(callSuper = true)-->
+<#--    <#else>-->
+<#--@EqualsAndHashCode(callSuper = false)-->
+<#--    </#if>-->
+<#--@Accessors(chain = true)-->
+<#--</#if>-->
+<#--<#if table.convert>-->
+<#--@TableName("${table.name}")-->
+<#--</#if>-->
+<#--<#if swagger2>-->
+<#--@ApiModel(value="${entity}对象",description="${table.comment!}")-->
+<#--</#if>-->
 <#if superEntityClass??>
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
 <#elseif activeRecord>
