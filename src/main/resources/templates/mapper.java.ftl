@@ -36,5 +36,9 @@ public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
     int countSize(Map<${cfg.String},Object> map);
 
     List<${entity}> selectByPaging(Map<${cfg.String},Object> map);
-}
+
+    List<${entity}> selectByPagingFromContinuous(Map<${cfg.String}, Object> map);
+
+    int countSizeFromContinuous(Map<${cfg.String}, Object> map);
+    }
 </#if>
