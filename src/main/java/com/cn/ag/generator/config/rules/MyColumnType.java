@@ -1,4 +1,4 @@
-package com.cn.ag.generator;
+package com.cn.ag.generator.config.rules;
 
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 

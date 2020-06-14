@@ -7,23 +7,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @Date ${date}
+* @Date ${cfg.date}
 * @author ${author}
 */
 <#if kotlin>
-interface ${table.mapperName} : ${superMapperClass}<${entity}>
+    interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
-public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+    public interface ${table.mapperName} <#if cfg.extend>extends ${superMapperClass}<${entity}></#if> {
 
     <#list table.fields as field>
         <#if field.keyFlag>
-    int deleteByPrimaryKey(${field.propertyType} id);
+            int deleteByPrimaryKey(${field.propertyType} id);
 
-    int updateByPrimaryKey(${entity} record);
+            int updateByPrimaryKey(${entity} record);
 
-    ${entity} selectByPrimaryKey(${field.propertyType} id);
+            ${entity} selectByPrimaryKey(${field.propertyType} id);
 
-    int updateByPrimaryKeySelective(${entity} record);
+            int updateByPrimaryKeySelective(${entity} record);
 
         </#if>
     </#list>

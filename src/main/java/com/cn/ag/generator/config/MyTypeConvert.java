@@ -1,8 +1,9 @@
-package com.cn.ag.generator;
+package com.cn.ag.generator.config;
 
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.ITypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
+import com.cn.ag.generator.config.rules.MyColumnType;
 
 /**
  * @ClassName:MyTypeConvert

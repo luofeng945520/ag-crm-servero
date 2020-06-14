@@ -10,16 +10,16 @@ import io.swagger.annotations.ApiModelProperty;
 </#if>
 
 <#if entityLombokModel>
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+    import lombok.Data;
+    import lombok.EqualsAndHashCode;
+    import lombok.experimental.Accessors;
 </#if>
 
 /**
- * ${table.comment!}
- *
- * @author ${author}
- */
+* ${table.comment!}
+* @Date ${cfg.date}
+* @author ${author}
+*/
 <#--<#if entityLombokModel>-->
 <#--@Data-->
 <#--    <#if superEntityClass??>-->

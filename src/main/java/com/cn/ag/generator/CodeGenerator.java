@@ -2,16 +2,23 @@ package com.cn.ag.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.cn.ag.generator.config.MyTypeConvert;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
 
 /**
  * @ClassName:CodeGenerator
@@ -58,6 +65,10 @@ public class CodeGenerator {
      */
     public static final String MAPPER_PATH = "data.dao.interf";
     /**
+     * MapperImpl
+     */
+    public static final String MAPPER_IMPL_PATH = "data.dao.impl";
+    /**
      * MapperXML
      */
     public static final String MAPPER_XML_PATH = "data.dao.xml";
@@ -82,6 +93,10 @@ public class CodeGenerator {
      * Mapper接口 文件模板
      */
     public static final String MAPPER_TEMPLATE_PATH = "templates/mapper.java";
+    /**
+     * MapperImpl 文件模板
+     */
+    public static final String MAPPER_IMPL_TEMPLATE_PATH = "templates/mapperImpl.java.ftl";
     /**
      * MapperXML 文件模板
      */
@@ -122,7 +137,7 @@ public class CodeGenerator {
     public static void main(String[] args) {
         String userDir = System.getProperty("user.dir");
         System.out.println("项目所处目录：" + userDir);
-        userDir = "G:/";
+        userDir = "G:/";// + PROJECT_DIR
         generator(userDir);
 
     }
@@ -142,61 +157,63 @@ public class CodeGenerator {
         //全局配置
         GlobalConfig globalConfig = new GlobalConfig();
         //设置文件输出目录
-        globalConfig.setOutputDir(dir )//+ PROJECT_DIR
-                    //作者
-                    .setAuthor("milk")
-                    //是否打开输出目录
-                    .setOpen(false)
-                    //开启 BaseResultMap
-                    .setBaseResultMap(true)
-                    //开启 BaseColumnList
-                    .setBaseColumnList(true)
-                    //设置Service层名称
-                    .setServiceName("%sService")
-                    //设置ServiceImpl层名称
-                    .setServiceImplName("%sServiceImpl");
+        globalConfig.setOutputDir(dir)
+                //作者
+                .setAuthor("milk")
+                //是否打开输出目录
+                .setOpen(false)
+                //开启 BaseResultMap
+                .setBaseResultMap(true)
+                //开启 BaseColumnList
+                .setBaseColumnList(true)
+                //设置Service层名称
+                .setServiceName("%sService")
+                //继承Mybatis plus 的Model类
+                .setActiveRecord(false)
+                //设置ServiceImpl层名称
+                .setServiceImplName("%sServiceImpl");
         generator.setGlobalConfig(globalConfig);
 
         //数据源配置
         DataSourceConfig sourceConfig = new DataSourceConfig();
         //设置数据库类型
         sourceConfig.setDbType(DbType.MYSQL)
-                    //设置数据库
-                    .setUrl(URL)
-                    .setDriverName(DRIVER_NAME)
-                    .setUsername(USERNAME)
-                    .setPassword(PASSWORD)
-                    //设置自己的类型转换
-                    .setTypeConvert(new MyTypeConvert());
+                //设置数据库
+                .setUrl(URL)
+                .setDriverName(DRIVER_NAME)
+                .setUsername(USERNAME)
+                .setPassword(PASSWORD)
+                //设置自己的类型转换
+                .setTypeConvert(new MyTypeConvert());
         generator.setDataSource(sourceConfig);
 
         //配置 包路径
         PackageConfig packageConfig = new PackageConfig();
         //父包名
         packageConfig.setParent(PARENT_PATH)
-                    //实体类 包路径
-                     .setEntity(DOMAIN_PATH)
-                    //Mapper接口 包路径
-                     .setMapper(MAPPER_PATH)
-                    //MapperXML 包路径
-                     .setXml(MAPPER_XML_PATH)
-                    //Service接口 包路径
-                     .setService(SERVICE_PATH)
-                    //Service实现类 包路径
-                     .setServiceImpl(SERVICE_IMPL_PATH)
-                    //Controller 包路径
-                     .setController(CONTROL_PATH);
+                //实体类 包路径
+                .setEntity(DOMAIN_PATH)
+                //Mapper接口 包路径
+                .setMapper(MAPPER_PATH)
+                //MapperXML 包路径
+                .setXml(MAPPER_XML_PATH)
+                //Service接口 包路径
+                .setService(SERVICE_PATH)
+                //Service实现类 包路径
+                .setServiceImpl(SERVICE_IMPL_PATH)
+                //Controller 包路径
+                .setController(CONTROL_PATH);
 //        packageConfig.setPathInfo();
         generator.setPackageInfo(packageConfig);
 
         //配置自定义代码模板
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setEntity(DOMAIN_TEMPLATE_PATH)
-                      .setMapper(MAPPER_TEMPLATE_PATH)
-                      .setXml(MAPPER_XML_TEMPLATE_PATH)
-                      .setService(SERVICE_TEMPLATE_PATH)
-                      .setServiceImpl(SERVICE_IMPL_TEMPLATE_PATH)
-                      .setController(CONTROL_TEMPLATE_PATH);
+                .setMapper(MAPPER_TEMPLATE_PATH)
+                .setXml(MAPPER_XML_TEMPLATE_PATH)
+                .setService(SERVICE_TEMPLATE_PATH)
+                .setServiceImpl(SERVICE_IMPL_TEMPLATE_PATH)
+                .setController(CONTROL_TEMPLATE_PATH);
         generator.setTemplate(templateConfig);
 
         //配置 策略
@@ -206,7 +223,7 @@ public class CodeGenerator {
                 //字段名 下划线转驼峰命名
                 .setColumnNaming(NamingStrategy.underline_to_camel)
                 //设置父类类型
-        //        strategy.setSuper...Class()
+                //        strategy.setSuper...Class()
                 //使用 lombok 插件
                 .setEntityLombokModel(false)
                 //Controller层 使用RestController注解
@@ -214,7 +231,7 @@ public class CodeGenerator {
                 //需要包含的表名
                 .setInclude(scanner("表名").split(","))
                 //需要排除的表名
-        //        strategy.setExclude();
+                //        strategy.setExclude();
                 //驼峰转连字符
                 .setControllerMappingHyphenStyle(true)
                 //表名前缀  生成类文件会去掉表前缀
@@ -230,17 +247,53 @@ public class CodeGenerator {
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<>();
-                map.put("extendMapper","BaseMapper");
-                map.put("String","String");
-                map.put("prefix","#{");
-                map.put("suffix","}");
-                map.put("whereParam","${whereParam}");
-                map.put("startIndex","${startIndex}");
-                map.put("endIndex","${endIndex}");
-                map.put("jointable","${jointable}");
+                map.put("extendMapper", "BaseMapper");
+                map.put("String", "String");
+                map.put("prefix", "#{");
+                map.put("suffix", "}");
+                map.put("whereParam", "${whereParam}");
+                map.put("startIndex", "${startIndex}");
+                map.put("endIndex", "${endIndex}");
+                map.put("jointable", "${jointable}");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                map.put("date", dateTimeFormatter.format(LocalDateTime.now()));
+                //mapperImpl 包路径
+                map.put("MapperImpl", PARENT_PATH + "." + MAPPER_IMPL_PATH);
+                //mapperImpl 父类
+                map.put("superMapperImpl", true);
+                //mapperImpl
+                map.put("superMapperImplPkg", "com.cn.ag.data.dao.MapperHelper;");
+                //继承 mybatis plus 的类
+                map.put("extend", false);
                 this.setMap(map);
             }
         };
+
+        injectionConfig.setFileCreate((configBuilder, fileType, filePath) -> {
+            // 全局判断【默认】
+            File file = new File(filePath);
+            boolean exist = file.exists();
+            if (!exist) {
+                file.getParentFile().mkdirs();
+            }
+            return !exist || configBuilder.getGlobalConfig().isFileOverride();
+        });
+
+        // 自定义输出配置
+        List<FileOutConfig> focList = new ArrayList<>();
+
+        FileOutConfig mapperImplTemplate = new FileOutConfig(MAPPER_IMPL_TEMPLATE_PATH) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return dir + File.separator + PARENT_PATH.replaceAll("\\.", Matcher.quoteReplacement(File.separator)) +
+                        File.separator + MAPPER_IMPL_PATH.replaceAll("\\.", Matcher.quoteReplacement(File.separator)) +
+                        File.separator + tableInfo.getMapperName() + "Impl.java";
+            }
+        };
+
+        focList.add(mapperImplTemplate);
+        // 自定义配置会被优先输出
+        injectionConfig.setFileOutConfigList(focList);
 
         generator.setCfg(injectionConfig);
 
