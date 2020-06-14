@@ -17,7 +17,7 @@
     * @Date ${cfg.date}
     * @author ${author}
     */
-    @Repository
+    @Repository("${"${table.mapperName}Impl"?uncap_first}")
     public class ${table.mapperName}Impl <#if cfg.superMapperImpl>extends MapperHelper<${entity}></#if>  implements ${table.mapperName} {
 
     <#list table.fields as field>

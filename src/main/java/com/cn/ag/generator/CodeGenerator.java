@@ -137,7 +137,8 @@ public class CodeGenerator {
     public static void main(String[] args) {
         String userDir = System.getProperty("user.dir");
         System.out.println("项目所处目录：" + userDir);
-        userDir = "G:/";// + PROJECT_DIR
+//        userDir = "G:/";// + PROJECT_DIR
+        userDir += PROJECT_DIR;
         generator(userDir);
 
     }
@@ -170,6 +171,8 @@ public class CodeGenerator {
                 .setServiceName("%sService")
                 //继承Mybatis plus 的Model类
                 .setActiveRecord(false)
+                //开启Swagger2  仅限controller
+                .setSwagger2(true)
                 //设置ServiceImpl层名称
                 .setServiceImplName("%sServiceImpl");
         generator.setGlobalConfig(globalConfig);

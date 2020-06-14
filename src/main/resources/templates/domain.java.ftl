@@ -1,13 +1,13 @@
 package ${package.Entity};
 
 <#list table.importPackages as pkg>
-import ${pkg};
+    import ${pkg};
 </#list>
 
-<#if swagger2>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-</#if>
+<#--<#if swagger2>-->
+<#--import io.swagger.annotations.ApiModel;-->
+<#--import io.swagger.annotations.ApiModelProperty;-->
+<#--</#if>-->
 
 <#if entityLombokModel>
     import lombok.Data;
@@ -52,32 +52,32 @@ public class ${entity} implements Serializable {
     </#if>
 <#--    字段注释    -->
     <#if field.comment!?length gt 0>
-        <#if swagger2>
-    @ApiModelProperty(value = "${field.comment}")
-        <#else>
-   /**
-    * ${field.comment}
-    */
-        </#if>
+    <#--        <#if swagger2>-->
+    <#--    @ApiModelProperty(value = "${field.comment}")-->
+    <#--        <#else>-->
+        /**
+        * ${field.comment}
+        */
+    <#--        </#if>-->
     </#if>
     <#if field.keyFlag>
     <#--主键-->
-        <#if field.keyIdentityFlag>
-    @TableId(value = "${field.name}", type = IdType.AUTO)
-        <#elseif idType??>
-    @TableId(value = "${field.name}", type = IdType.${idType})
-        <#elseif field.convert>
-    @TableId(${field.name})
-        </#if>
+    <#--        <#if field.keyIdentityFlag>-->
+    <#--    @TableId(value = "${field.name}", type = IdType.AUTO)-->
+    <#--        <#elseif idType??>-->
+    <#--    @TableId(value = "${field.name}", type = IdType.${idType})-->
+    <#--        <#elseif field.convert>-->
+    <#--    @TableId(${field.name})-->
+    <#--        </#if>-->
     <#elseif field.fill??>
     <#-- -----   存在字段填充设置   ----->
         <#if field.convert>
-    @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
+            @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
         <#else>
-    @TableField(fill = FieldFill.${field.fill})
+            @TableField(fill = FieldFill.${field.fill})
         </#if>
     <#elseif field.convert>
-    @TableField("${field.name}")
+        @TableField("${field.name}")
     </#if>
 <#-- 乐观锁注解 -->
     <#if (versionFieldName!"") == field.name>
