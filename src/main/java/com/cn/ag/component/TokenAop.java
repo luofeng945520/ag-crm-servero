@@ -2,14 +2,11 @@ package com.cn.ag.component;
 
 import com.cn.ag.annotation.LoginToken;
 import com.cn.ag.annotation.PassToken;
-import com.cn.ag.data.dao.impl.AgUsersMapperImpl;
-import com.cn.ag.data.domain.sd.AgStore;
-import com.cn.ag.data.domain.sd.AgUsers;
+import com.cn.ag.data.domain.sd.qx.Users;
 import com.cn.ag.utils.JwtUtil;
 import com.cn.ff.utils.BeanConversion.Json.GsonManager;
 import com.cn.ff.utils.comm.support.RequestParam;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -18,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.List;
 
 /**
  * @ClassName:TokenAop
@@ -30,8 +26,6 @@ public class TokenAop extends HandlerInterceptorAdapter {
 
     GsonManager gm = GsonManager.getIns();
 
-    @Autowired
-    private AgUsersMapperImpl agUsersMapperImpl;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -81,19 +75,12 @@ public class TokenAop extends HandlerInterceptorAdapter {
             tokenSment = token.split("&");
             token = tokenSment[0];
 
-            AgUsers agUsers = JwtUtil.unsign(token, AgUsers.class);
+            Users agUsers = JwtUtil.unsign(token, Users.class);
             if (agUsers == null) {
                 throw new RuntimeException("【TokenAop异常】token失效");
             }
 
-            AgUsers users = agUsersMapperImpl.selectPrimaryKeySelective(agUsers);
-            agUsers.setRoleIds(users.getRole().getId()+"");
-            agUsers.setStoreIds(dealStoreId(users.getStore()));
-            agUsers.setRoleName(users.getRole().getRoleName());
-
-            agUsers.setRole(users.getRole());
-            agUsers.setStore(users.getStore());
-            agUsers.setDealer(users.getDealer());
+//            AgUsers users = agUsersMapperImpl.selectPrimaryKeySelective(agUsers);
 
             request.setAttribute("tokenUser", agUsers);
         }
@@ -102,25 +89,4 @@ public class TokenAop extends HandlerInterceptorAdapter {
         return true;
     }
 
-
-    private String dealStoreId(List<AgStore> stores){
-        if (stores == null || stores.isEmpty()){
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (AgStore store : stores) {
-            if (store == null){
-                continue;
-            }
-            //拼接
-            if(store.getId()!=null){
-                if (sb.length() == 0){
-                    sb.append(store.getId());
-                }else{
-                    sb.append(",").append(store.getId());
-                }
-            }
-        }
-        return sb.toString();
-    }
 }

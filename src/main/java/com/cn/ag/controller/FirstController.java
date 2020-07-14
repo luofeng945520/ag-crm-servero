@@ -1,7 +1,6 @@
 package com.cn.ag.controller;
 
 import com.cn.ag.annotation.PassToken;
-import com.cn.ag.data.dao.interf.AgRecommitForbiddenMapper;
 import com.cn.ag.utils.PackageClassesScanner;
 import com.cn.ag.utils.UtilParm;
 import com.cn.ff.utils.comm.support.ResultData;
@@ -36,8 +35,6 @@ public class FirstController {
 
     Logger logger = LoggerFactory.getLogger(FirstController.class);
 
-    @Autowired
-    private AgRecommitForbiddenMapper agRecommitForbiddenMapper;
 
     @RequestMapping(value = "/tests", produces = "application/json")
     @ResponseBody

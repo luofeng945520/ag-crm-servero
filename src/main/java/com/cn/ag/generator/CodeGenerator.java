@@ -35,7 +35,7 @@ public class CodeGenerator {
     /**
      * 数据库 URL
      */
-    public static final String URL = "jdbc:mysql://192.168.200.27:3306/sd_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
+    public static final String URL = "jdbc:mysql://192.168.200.27:3306/qx_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
     /**
      * 数据库驱动
      */
@@ -59,31 +59,31 @@ public class CodeGenerator {
     /**
      * 实体类
      */
-    public static final String DOMAIN_PATH = "data.domain.sd";
+    public static final String DOMAIN_PATH = "data.domain.sd.qx";
     /**
      * Mapper接口
      */
-    public static final String MAPPER_PATH = "data.dao.interf";
+    public static final String MAPPER_PATH = "data.dao.interf.qx";
     /**
      * MapperImpl
      */
-    public static final String MAPPER_IMPL_PATH = "data.dao.impl";
+    public static final String MAPPER_IMPL_PATH = "data.dao.impl.qx";
     /**
      * MapperXML
      */
-    public static final String MAPPER_XML_PATH = "data.dao.xml";
+    public static final String MAPPER_XML_PATH = "data.dao.xml.qx";
     /**
      * Service接口
      */
-    public static final String SERVICE_PATH = "services.order";
+    public static final String SERVICE_PATH = "services.qx";
     /**
      * Service实现类
      */
-    public static final String SERVICE_IMPL_PATH = "services.order.impl";
+    public static final String SERVICE_IMPL_PATH = "services.qx.impl";
     /**
      * Controller
      */
-    public static final String CONTROL_PATH = "controller.order";
+    public static final String CONTROL_PATH = "controller.qx";
 
     /**
      * 实体类 文件模板
