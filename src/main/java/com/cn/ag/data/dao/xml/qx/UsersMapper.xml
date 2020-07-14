@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.ag.data.dao.interf.qx.UsersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cn.ag.data.domain.sd.qx.Users">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="fullname" property="fullname" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="reg_time" property="regTime" jdbcType="BIGINT"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="BIGINT"/>
+        <result column="stat" property="stat" jdbcType="INTEGER"/>
+        <result column="role_ids" property="roleIds" jdbcType="VARCHAR"/>
+        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <result column="store_ids" property="storeIds" jdbcType="VARCHAR"/>
+        <result column="dealer_id" property="dealerId" jdbcType="BIGINT"/>
+        <result column="responsible_area_ids" property="responsibleAreaIds" jdbcType="VARCHAR"/>
+        <result column="dd_user_id" property="ddUserId" jdbcType="VARCHAR"/>
+        <result column="creator_id" property="creatorId" jdbcType="BIGINT"/>
+        <result column="responsible_dealer_type" property="responsibleDealerType" jdbcType="INTEGER"/>
+        <result column="is_myself_operation" property="isMyselfOperation" jdbcType="INTEGER"/>
+        <result column="position" property="position" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+            id, user_name, password, fullname, phone, token, reg_time, last_login_time, stat, role_ids, user_code, store_ids, dealer_id, responsible_area_ids, dd_user_id, creator_id, responsible_dealer_type, is_myself_operation, position
+        </sql>
+
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+                delete from ag_users
+                where id = #{id,jdbcType=BIGINT}
+            </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.cn.ag.data.domain.sd.qx.Users">
+                update ag_users
+                set
+                user_name = #{userName,jdbcType=VARCHAR},password = #{password,jdbcType=VARCHAR},fullname = #{fullname,jdbcType=VARCHAR},phone = #{phone,jdbcType=VARCHAR},token = #{token,jdbcType=VARCHAR},reg_time = #{regTime,jdbcType=BIGINT},last_login_time = #{lastLoginTime,jdbcType=BIGINT},stat = #{stat,jdbcType=INTEGER},role_ids = #{roleIds,jdbcType=VARCHAR},user_code = #{userCode,jdbcType=VARCHAR},store_ids = #{storeIds,jdbcType=VARCHAR},dealer_id = #{dealerId,jdbcType=BIGINT},responsible_area_ids = #{responsibleAreaIds,jdbcType=VARCHAR},dd_user_id = #{ddUserId,jdbcType=VARCHAR},creator_id = #{creatorId,jdbcType=BIGINT},responsible_dealer_type = #{responsibleDealerType,jdbcType=INTEGER},is_myself_operation = #{isMyselfOperation,jdbcType=INTEGER},position = #{position,jdbcType=VARCHAR}
+                where id = #{id,jdbcType=BIGINT}
+            </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_users
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.cn.ag.data.domain.sd.qx.Users">
+        update ag_users
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="fullname != null">
+                fullname = #{fullname,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                token = #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null">
+                reg_time = #{regTime,jdbcType=BIGINT},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=BIGINT},
+            </if>
+            <if test="stat != null">
+                stat = #{stat,jdbcType=INTEGER},
+            </if>
+            <if test="roleIds != null">
+                role_ids = #{roleIds,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="storeIds != null">
+                store_ids = #{storeIds,jdbcType=VARCHAR},
+            </if>
+            <if test="dealerId != null">
+                dealer_id = #{dealerId,jdbcType=BIGINT},
+            </if>
+            <if test="responsibleAreaIds != null">
+                responsible_area_ids = #{responsibleAreaIds,jdbcType=VARCHAR},
+            </if>
+            <if test="ddUserId != null">
+                dd_user_id = #{ddUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                creator_id = #{creatorId,jdbcType=BIGINT},
+            </if>
+            <if test="responsibleDealerType != null">
+                responsible_dealer_type = #{responsibleDealerType,jdbcType=INTEGER},
+            </if>
+            <if test="isMyselfOperation != null">
+                is_myself_operation = #{isMyselfOperation,jdbcType=INTEGER},
+            </if>
+            <if test="position != null">
+                position = #{position,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.cn.ag.data.domain.sd.qx.Users">
+        insert into ag_users
+        (
+        id, user_name, password, fullname, phone, token, reg_time, last_login_time, stat, role_ids, user_code, store_ids, dealer_id, responsible_area_ids, dd_user_id, creator_id, responsible_dealer_type, is_myself_operation, position)
+        values (#{id,jdbcType=BIGINT},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{fullname,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{token,jdbcType=VARCHAR},#{regTime,jdbcType=BIGINT},#{lastLoginTime,jdbcType=BIGINT},#{stat,jdbcType=INTEGER},#{roleIds,jdbcType=VARCHAR},#{userCode,jdbcType=VARCHAR},#{storeIds,jdbcType=VARCHAR},#{dealerId,jdbcType=BIGINT},#{responsibleAreaIds,jdbcType=VARCHAR},#{ddUserId,jdbcType=VARCHAR},#{creatorId,jdbcType=BIGINT},#{responsibleDealerType,jdbcType=INTEGER},#{isMyselfOperation,jdbcType=INTEGER},#{position,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.cn.ag.data.domain.sd.qx.Users">
+        insert into ag_users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="fullname != null">
+                fullname,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="token != null">
+                token,
+            </if>
+            <if test="regTime != null">
+                reg_time,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="stat != null">
+                stat,
+            </if>
+            <if test="roleIds != null">
+                role_ids,
+            </if>
+            <if test="userCode != null">
+                user_code,
+            </if>
+            <if test="storeIds != null">
+                store_ids,
+            </if>
+            <if test="dealerId != null">
+                dealer_id,
+            </if>
+            <if test="responsibleAreaIds != null">
+                responsible_area_ids,
+            </if>
+            <if test="ddUserId != null">
+                dd_user_id,
+            </if>
+            <if test="creatorId != null">
+                creator_id,
+            </if>
+            <if test="responsibleDealerType != null">
+                responsible_dealer_type,
+            </if>
+            <if test="isMyselfOperation != null">
+                is_myself_operation,
+            </if>
+            <if test="position != null">
+                position,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="fullname != null">
+                #{fullname,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null">
+                #{regTime,jdbcType=BIGINT},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=BIGINT},
+            </if>
+            <if test="stat != null">
+                #{stat,jdbcType=INTEGER},
+            </if>
+            <if test="roleIds != null">
+                #{roleIds,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="storeIds != null">
+                #{storeIds,jdbcType=VARCHAR},
+            </if>
+            <if test="dealerId != null">
+                #{dealerId,jdbcType=BIGINT},
+            </if>
+            <if test="responsibleAreaIds != null">
+                #{responsibleAreaIds,jdbcType=VARCHAR},
+            </if>
+            <if test="ddUserId != null">
+                #{ddUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                #{creatorId,jdbcType=BIGINT},
+            </if>
+            <if test="responsibleDealerType != null">
+                #{responsibleDealerType,jdbcType=INTEGER},
+            </if>
+            <if test="isMyselfOperation != null">
+                #{isMyselfOperation,jdbcType=INTEGER},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into ag_users
+        (id, user_name, password, fullname, phone, token, reg_time, last_login_time, stat, role_ids, user_code,
+        store_ids, dealer_id, responsible_area_ids, dd_user_id, creator_id, responsible_dealer_type,
+        is_myself_operation, position)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.userName,jdbcType=VARCHAR},#{item.password,jdbcType=VARCHAR},#{item.fullname,jdbcType=VARCHAR},#{item.phone,jdbcType=VARCHAR},#{item.token,jdbcType=VARCHAR},#{item.regTime,jdbcType=BIGINT},#{item.lastLoginTime,jdbcType=BIGINT},#{item.stat,jdbcType=INTEGER},#{item.roleIds,jdbcType=VARCHAR},#{item.userCode,jdbcType=VARCHAR},#{item.storeIds,jdbcType=VARCHAR},#{item.dealerId,jdbcType=BIGINT},#{item.responsibleAreaIds,jdbcType=VARCHAR},#{item.ddUserId,jdbcType=VARCHAR},#{item.creatorId,jdbcType=BIGINT},#{item.responsibleDealerType,jdbcType=INTEGER},#{item.isMyselfOperation,jdbcType=INTEGER},#{item.position,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="countSize" parameterType="map" resultType="int">
+        select count(1) from ag_users
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPaging" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_users
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+        <if test="startIndex!=null and endIndex !=null">
+            limit ${startIndex},${endIndex}
+        </if>
+    </select>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List_Join">
+                ag_users.id,
+                ag_users.user_name,
+                ag_users.password,
+                ag_users.fullname,
+                ag_users.phone,
+                ag_users.token,
+                ag_users.reg_time,
+                ag_users.last_login_time,
+                ag_users.stat,
+                ag_users.role_ids,
+                ag_users.user_code,
+                ag_users.store_ids,
+                ag_users.dealer_id,
+                ag_users.responsible_area_ids,
+                ag_users.dd_user_id,
+                ag_users.creator_id,
+                ag_users.responsible_dealer_type,
+                ag_users.is_myself_operation,
+                ag_users.position
+        </sql>
+
+
+    <select id="selectByPagingFromContinuous" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from ag_users
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+            <if test="startIndex != null and endIndex != null">
+                limit ${startIndex},${endIndex}
+            </if>
+        </where>
+    </select>
+
+    <select id="countSizeFromContinuous" resultType="java.lang.Integer" parameterType="map">
+        select count(1) from ag_users
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

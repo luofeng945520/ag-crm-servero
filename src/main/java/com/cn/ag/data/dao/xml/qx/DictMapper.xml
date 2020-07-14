@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.ag.data.dao.interf.qx.DictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cn.ag.data.domain.sd.qx.Dict">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="dict_key" property="dictKey" jdbcType="INTEGER"/>
+        <result column="dict_value" property="dictValue" jdbcType="VARCHAR"/>
+        <result column="field_name" property="fieldName" jdbcType="VARCHAR"/>
+        <result column="table_name" property="tableName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+            id, create_time, dict_key, dict_value, field_name, table_name
+        </sql>
+
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+                delete from ag_dict
+                where id = #{id,jdbcType=BIGINT}
+            </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.cn.ag.data.domain.sd.qx.Dict">
+                update ag_dict
+                set
+                create_time = #{createTime,jdbcType=BIGINT},dict_key = #{dictKey,jdbcType=INTEGER},dict_value = #{dictValue,jdbcType=VARCHAR},field_name = #{fieldName,jdbcType=VARCHAR},table_name = #{tableName,jdbcType=VARCHAR}
+                where id = #{id,jdbcType=BIGINT}
+            </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_dict
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.cn.ag.data.domain.sd.qx.Dict">
+        update ag_dict
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="dictKey != null">
+                dict_key = #{dictKey,jdbcType=INTEGER},
+            </if>
+            <if test="dictValue != null">
+                dict_value = #{dictValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldName != null">
+                field_name = #{fieldName,jdbcType=VARCHAR},
+            </if>
+            <if test="tableName != null">
+                table_name = #{tableName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.cn.ag.data.domain.sd.qx.Dict">
+        insert into ag_dict
+        (
+        id, create_time, dict_key, dict_value, field_name, table_name)
+        values (#{id,jdbcType=BIGINT},#{createTime,jdbcType=BIGINT},#{dictKey,jdbcType=INTEGER},#{dictValue,jdbcType=VARCHAR},#{fieldName,jdbcType=VARCHAR},#{tableName,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.cn.ag.data.domain.sd.qx.Dict">
+        insert into ag_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="dictKey != null">
+                dict_key,
+            </if>
+            <if test="dictValue != null">
+                dict_value,
+            </if>
+            <if test="fieldName != null">
+                field_name,
+            </if>
+            <if test="tableName != null">
+                table_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="dictKey != null">
+                #{dictKey,jdbcType=INTEGER},
+            </if>
+            <if test="dictValue != null">
+                #{dictValue,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldName != null">
+                #{fieldName,jdbcType=VARCHAR},
+            </if>
+            <if test="tableName != null">
+                #{tableName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into ag_dict
+        (id, create_time, dict_key, dict_value, field_name, table_name)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.createTime,jdbcType=BIGINT},#{item.dictKey,jdbcType=INTEGER},#{item.dictValue,jdbcType=VARCHAR},#{item.fieldName,jdbcType=VARCHAR},#{item.tableName,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="countSize" parameterType="map" resultType="int">
+        select count(1) from ag_dict
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPaging" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_dict
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+        <if test="startIndex!=null and endIndex !=null">
+            limit ${startIndex},${endIndex}
+        </if>
+    </select>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List_Join">
+                ag_dict.id,
+                ag_dict.create_time,
+                ag_dict.dict_key,
+                ag_dict.dict_value,
+                ag_dict.field_name,
+                ag_dict.table_name
+        </sql>
+
+
+    <select id="selectByPagingFromContinuous" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from ag_dict
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+            <if test="startIndex != null and endIndex != null">
+                limit ${startIndex},${endIndex}
+            </if>
+        </where>
+    </select>
+
+    <select id="countSizeFromContinuous" resultType="java.lang.Integer" parameterType="map">
+        select count(1) from ag_dict
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

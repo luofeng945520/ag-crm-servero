@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.ag.data.dao.interf.qx.RolesSqlMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cn.ag.data.domain.sd.qx.RolesSql">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+        <result column="module_name" property="moduleName" jdbcType="VARCHAR"/>
+        <result column="preset_sql" property="presetSql" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+            id, role_id, module_name, preset_sql
+        </sql>
+
+    <delete id="deleteByPrimaryKey" parameterType="String">
+                delete from ag_roles_sql
+                where id = #{id,jdbcType=VARCHAR}
+            </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.cn.ag.data.domain.sd.qx.RolesSql">
+                update ag_roles_sql
+                set
+                role_id = #{roleId,jdbcType=BIGINT},module_name = #{moduleName,jdbcType=VARCHAR},preset_sql = #{presetSql,jdbcType=VARCHAR}
+                where id = #{id,jdbcType=VARCHAR}
+            </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_roles_sql
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.cn.ag.data.domain.sd.qx.RolesSql">
+        update ag_roles_sql
+        <set>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="moduleName != null">
+                module_name = #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="presetSql != null">
+                preset_sql = #{presetSql,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <insert id="insert" parameterType="com.cn.ag.data.domain.sd.qx.RolesSql">
+        insert into ag_roles_sql
+        (
+        id, role_id, module_name, preset_sql)
+        values (#{id,jdbcType=VARCHAR},#{roleId,jdbcType=BIGINT},#{moduleName,jdbcType=VARCHAR},#{presetSql,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.cn.ag.data.domain.sd.qx.RolesSql">
+        insert into ag_roles_sql
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="moduleName != null">
+                module_name,
+            </if>
+            <if test="presetSql != null">
+                preset_sql,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="moduleName != null">
+                #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="presetSql != null">
+                #{presetSql,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into ag_roles_sql
+        (id, role_id, module_name, preset_sql)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR},#{item.roleId,jdbcType=BIGINT},#{item.moduleName,jdbcType=VARCHAR},#{item.presetSql,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="countSize" parameterType="map" resultType="int">
+        select count(1) from ag_roles_sql
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPaging" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_roles_sql
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+        <if test="startIndex!=null and endIndex !=null">
+            limit ${startIndex},${endIndex}
+        </if>
+    </select>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List_Join">
+                ag_roles_sql.id,
+                ag_roles_sql.role_id,
+                ag_roles_sql.module_name,
+                ag_roles_sql.preset_sql
+        </sql>
+
+
+    <select id="selectByPagingFromContinuous" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from ag_roles_sql
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+            <if test="startIndex != null and endIndex != null">
+                limit ${startIndex},${endIndex}
+            </if>
+        </where>
+    </select>
+
+    <select id="countSizeFromContinuous" resultType="java.lang.Integer" parameterType="map">
+        select count(1) from ag_roles_sql
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

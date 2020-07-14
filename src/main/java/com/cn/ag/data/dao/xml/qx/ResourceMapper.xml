@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.ag.data.dao.interf.qx.ResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cn.ag.data.domain.sd.qx.Resource">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="modify_time" property="modifyTime" jdbcType="BIGINT"/>
+        <result column="resource_name" property="resourceName" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="control_id" property="controlId" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="resource_url" property="resourceUrl" jdbcType="VARCHAR"/>
+        <result column="order_num" property="orderNum" jdbcType="BIGINT"/>
+        <result column="project_system_id" property="projectSystemId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+            id, parent_id, create_time, modify_time, resource_name, type, icon, control_id, path, resource_url, order_num, project_system_id
+        </sql>
+
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+                delete from ag_resource
+                where id = #{id,jdbcType=BIGINT}
+            </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.cn.ag.data.domain.sd.qx.Resource">
+                update ag_resource
+                set
+                parent_id = #{parentId,jdbcType=BIGINT},create_time = #{createTime,jdbcType=BIGINT},modify_time = #{modifyTime,jdbcType=BIGINT},resource_name = #{resourceName,jdbcType=VARCHAR},type = #{type,jdbcType=INTEGER},icon = #{icon,jdbcType=VARCHAR},control_id = #{controlId,jdbcType=VARCHAR},path = #{path,jdbcType=VARCHAR},resource_url = #{resourceUrl,jdbcType=VARCHAR},order_num = #{orderNum,jdbcType=BIGINT},project_system_id = #{projectSystemId,jdbcType=VARCHAR}
+                where id = #{id,jdbcType=BIGINT}
+            </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_resource
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.cn.ag.data.domain.sd.qx.Resource">
+        update ag_resource
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=BIGINT},
+            </if>
+            <if test="resourceName != null">
+                resource_name = #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="controlId != null">
+                control_id = #{controlId,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                path = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceUrl != null">
+                resource_url = #{resourceUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum,jdbcType=BIGINT},
+            </if>
+            <if test="projectSystemId != null">
+                project_system_id = #{projectSystemId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.cn.ag.data.domain.sd.qx.Resource">
+        insert into ag_resource
+        (
+        id, parent_id, create_time, modify_time, resource_name, type, icon, control_id, path, resource_url, order_num, project_system_id)
+        values (#{id,jdbcType=BIGINT},#{parentId,jdbcType=BIGINT},#{createTime,jdbcType=BIGINT},#{modifyTime,jdbcType=BIGINT},#{resourceName,jdbcType=VARCHAR},#{type,jdbcType=INTEGER},#{icon,jdbcType=VARCHAR},#{controlId,jdbcType=VARCHAR},#{path,jdbcType=VARCHAR},#{resourceUrl,jdbcType=VARCHAR},#{orderNum,jdbcType=BIGINT},#{projectSystemId,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.cn.ag.data.domain.sd.qx.Resource">
+        insert into ag_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="resourceName != null">
+                resource_name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="controlId != null">
+                control_id,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="resourceUrl != null">
+                resource_url,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+            <if test="projectSystemId != null">
+                project_system_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=BIGINT},
+            </if>
+            <if test="resourceName != null">
+                #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="controlId != null">
+                #{controlId,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceUrl != null">
+                #{resourceUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum,jdbcType=BIGINT},
+            </if>
+            <if test="projectSystemId != null">
+                #{projectSystemId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into ag_resource
+        (id, parent_id, create_time, modify_time, resource_name, type, icon, control_id, path, resource_url, order_num,
+        project_system_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=BIGINT},#{item.parentId,jdbcType=BIGINT},#{item.createTime,jdbcType=BIGINT},#{item.modifyTime,jdbcType=BIGINT},#{item.resourceName,jdbcType=VARCHAR},#{item.type,jdbcType=INTEGER},#{item.icon,jdbcType=VARCHAR},#{item.controlId,jdbcType=VARCHAR},#{item.path,jdbcType=VARCHAR},#{item.resourceUrl,jdbcType=VARCHAR},#{item.orderNum,jdbcType=BIGINT},#{item.projectSystemId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="countSize" parameterType="map" resultType="int">
+        select count(1) from ag_resource
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPaging" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_resource
+        <where>
+            <if test="whereParam!=null and whereParam!=''">
+                ${whereParam}
+            </if>
+        </where>
+        <if test="startIndex!=null and endIndex !=null">
+            limit ${startIndex},${endIndex}
+        </if>
+    </select>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List_Join">
+                ag_resource.id,
+                ag_resource.parent_id,
+                ag_resource.create_time,
+                ag_resource.modify_time,
+                ag_resource.resource_name,
+                ag_resource.type,
+                ag_resource.icon,
+                ag_resource.control_id,
+                ag_resource.path,
+                ag_resource.resource_url,
+                ag_resource.order_num,
+                ag_resource.project_system_id
+        </sql>
+
+
+    <select id="selectByPagingFromContinuous" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from ag_resource
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+            <if test="startIndex != null and endIndex != null">
+                limit ${startIndex},${endIndex}
+            </if>
+        </where>
+    </select>
+
+    <select id="countSizeFromContinuous" resultType="java.lang.Integer" parameterType="map">
+        select count(1) from ag_resource
+        <if test="jointable != null">
+            ${jointable}
+        </if>
+        <where>
+            <if test="whereParam != null">
+                ${whereParam}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
