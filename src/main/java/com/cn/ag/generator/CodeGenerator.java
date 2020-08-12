@@ -35,7 +35,7 @@ public class CodeGenerator {
     /**
      * 数据库 URL
      */
-    public static final String URL = "jdbc:mysql://192.168.200.27:3306/qx_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
+    public static final String URL = "jdbc:mysql://192.168.200.27:3306/ag_sd_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
     /**
      * 数据库驱动
      */
@@ -55,35 +55,35 @@ public class CodeGenerator {
     /**
      * 父包名
      */
-    public static final String PARENT_PATH = "com.cn.ag";
+    public static final String PARENT_PATH = "com.rhineetam.ag";
     /**
      * 实体类
      */
-    public static final String DOMAIN_PATH = "data.domain.sd.qx";
+    public static final String DOMAIN_PATH = "entity";
     /**
      * Mapper接口
      */
-    public static final String MAPPER_PATH = "data.dao.interf.qx";
+    public static final String MAPPER_PATH = "mapper";
     /**
      * MapperImpl
      */
-    public static final String MAPPER_IMPL_PATH = "data.dao.impl.qx";
+    public static final String MAPPER_IMPL_PATH = "entity.impl";
     /**
      * MapperXML
      */
-    public static final String MAPPER_XML_PATH = "data.dao.xml.qx";
+    public static final String MAPPER_XML_PATH = "mapper";
     /**
      * Service接口
      */
-    public static final String SERVICE_PATH = "services.qx";
+    public static final String SERVICE_PATH = "service";
     /**
      * Service实现类
      */
-    public static final String SERVICE_IMPL_PATH = "services.qx.impl";
+    public static final String SERVICE_IMPL_PATH = "service.impl";
     /**
      * Controller
      */
-    public static final String CONTROL_PATH = "controller.qx";
+    public static final String CONTROL_PATH = "controller";
 
     /**
      * 实体类 文件模板
@@ -137,8 +137,8 @@ public class CodeGenerator {
     public static void main(String[] args) {
         String userDir = System.getProperty("user.dir");
         System.out.println("项目所处目录：" + userDir);
-//        userDir = "G:/";// + PROJECT_DIR
-        userDir += PROJECT_DIR;
+        userDir = "G:/";// + PROJECT_DIR
+//        userDir += PROJECT_DIR;
         generator(userDir);
 
     }
@@ -238,7 +238,7 @@ public class CodeGenerator {
                 //驼峰转连字符
                 .setControllerMappingHyphenStyle(true)
                 //表名前缀  生成类文件会去掉表前缀
-                .setTablePrefix(TABLE_PREFIX)
+//                .setTablePrefix(TABLE_PREFIX)
                 //设置实体类的父类
                 .setSuperEntityClass("");
         generator.setStrategy(strategy);

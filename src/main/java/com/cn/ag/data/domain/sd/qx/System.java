@@ -1,7 +1,5 @@
 package com.cn.ag.data.domain.sd.qx;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.io.Serializable;
 
 
@@ -27,6 +25,9 @@ public class System implements Serializable {
      * 创建时间
      */
     private Long createTime;
+
+    /*  虚拟字段  */
+
 
     public String getId() {
         return id;

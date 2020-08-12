@@ -19,6 +19,6 @@ public class GlobalExceptionHandler {
         if (e instanceof NullPointerException){
             return UtilParm.resultData(0,"空",e);
         }
-        return UtilParm.resultData(0,"fail",e.getMessage());
+        return UtilParm.resultData(0, e.getMessage(), null);
     }
 }

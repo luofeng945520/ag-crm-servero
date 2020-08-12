@@ -29,17 +29,17 @@ import java.util.zip.ZipOutputStream;
 
 public class UtilTools {
 
-	public static FrontRequestParam analysisPagesParam(FrontRequestParam frontRequestParam){
-		//定义分页数据
-    	//当前页
-		int page = frontRequestParam.getPage() <=0 ? 1 : frontRequestParam.getPage();
-		//每页数据量 最少10条
-		int pageDataNumber = frontRequestParam.getPageDataNumber()<=0 ? 1 : frontRequestParam.getPageDataNumber();
-		//计算MYSQL limit
-		int startIndex,endIndex;
+    public static void analysisPagesParam(FrontRequestParam frontRequestParam) {
+        //定义分页数据
+        //当前页
+        int page = frontRequestParam.getPage() <= 0 ? 1 : frontRequestParam.getPage();
+        //每页数据量 最少10条
+        int pageDataNumber = frontRequestParam.getPageDataNumber() <= 0 ? 1 : frontRequestParam.getPageDataNumber();
+        //计算MYSQL limit
+        int startIndex, endIndex;
 
-		endIndex = pageDataNumber;
-		//endIndex = page * pageDataNumber;
+        endIndex = pageDataNumber;
+        //endIndex = page * pageDataNumber;
 		endIndex = Math.max(endIndex, 0);
 
 		startIndex = (page-1)*pageDataNumber;
@@ -50,7 +50,6 @@ public class UtilTools {
     	frontRequestParam.setPageDataNumber(pageDataNumber);
     	frontRequestParam.setStartIndex(startIndex);
     	frontRequestParam.setEndIndex(endIndex);
-		return frontRequestParam;
 	}
 	
 	public static String md5Encode(String inStr){
@@ -148,27 +147,26 @@ public class UtilTools {
 		return w;
 	}
 
-	/**
-	 * @Description:
-	 * @Param
-	 * @Return
-	 * @throws
-	 * 2020/5/5 8:36
-	 */
-	public static <T> T getObject(String param, Class<T> clazz) throws Exception{
-		T t;
-		GsonManager gm = GsonManager.getIns();
-		RequestParam requestParam=null;
-		try {
-			requestParam=gm.jsonToAnyObject(param, RequestParam.class);
-			if(FrontRequestParam.class.equals(clazz)) {
-				t = requestParam.getFrontRequestParamOfClz(clazz);
-			}else {
-				t = requestParam.getValueOfClz(clazz);
-			}
-		} catch (Exception e) {
-			throw new IllegalArgumentException("parameter error");
-		}
+    /**
+     * @throws 2020/5/5 8:36
+     * @Description:
+     * @Param
+     * @Return
+     */
+    public static <T> T getObject(String param, Class<T> clazz) {
+        T t;
+        GsonManager gm = GsonManager.getIns();
+        RequestParam requestParam;
+        try {
+            requestParam = gm.jsonToAnyObject(param, RequestParam.class);
+            if (FrontRequestParam.class.equals(clazz)) {
+                t = requestParam.getFrontRequestParamOfClz(clazz);
+            } else {
+                t = requestParam.getValueOfClz(clazz);
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("parameter error");
+        }
 		if(objcetIsNull(t)) {
 			throw new NullPointerException("parameter is empty");
 		}
@@ -194,23 +192,21 @@ public class UtilTools {
 		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
 			field.setAccessible(true);//设置访问权限
-			try {
-				Object object = field.get(t);
+            try {
+                Object object = field.get(t);
 
-				if(object != null && object instanceof String) {
-					if(object.toString().trim().length()!=0) {
-						return false;
-					}
-					
-				}
-				if(object != null && !(object instanceof String)) {
-					return false;
-				}
-				
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+                if (object instanceof String) {
+                    if (object.toString().trim().length() != 0) {
+                        return false;
+                    }
+
+                }
+                if (object != null && !(object instanceof String)) {
+                    return false;
+                }
+
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
 			}
 		}
 		return true;
@@ -230,15 +226,13 @@ public class UtilTools {
 		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
 			field.setAccessible(true);//设置访问权限
-			try {
-				Object value = field.get(a);
-				if(value != null && !field.getType().equals(List.class)) {
-					field.set(b, value);
-				}
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+            try {
+                Object value = field.get(a);
+                if (value != null && !field.getType().equals(List.class)) {
+                    field.set(b, value);
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
 			}
 		}
 	}
@@ -286,51 +280,29 @@ public class UtilTools {
 			throw new NullPointerException("parameter is empty");
 		}
 		return (T) obj;
-	}  
-	
-	/**
-	 *
-	 * @Description: 返回分页数据
-	 * @Title: returnData
-	 * @param dataCount 条数
-	 * @param frontRequestParam
-	 * @param list 对象集合
-	 * @return 设定文件
-	 * @return ResultData 返回类型
-	 * @date 2019年2月25日 下午5:07:12
-	 * @throws
-	 */
-	public static <T> ResultData returnData(int dataCount, FrontRequestParam frontRequestParam, List<T> list) {
-		// 定义输出MAP
-		Map<String, Object> ret = new HashMap<>();
-		ret.put("object", list);
-		if (frontRequestParam == null){
-			return UtilParm.resultData(1, "ok", ret);
-		}
-		int pagesCount = (int) Math.ceil(dataCount / 1.0 / frontRequestParam.getPageDataNumber());
-		pagesCount = pagesCount <= 0 ? 1 : pagesCount;
-		if (list == null || list.size() <= 0) {
-			return UtilParm.resultData(0, "暂无数据", null);
-		}
-
-		ret.put("dataCount", dataCount);
-		ret.put("page", frontRequestParam.getPage());
-		ret.put("pagesCount", pagesCount);
-		ret.put("pageDataNumber", frontRequestParam.getPageDataNumber());
-		return UtilParm.resultData(1, "ok", ret);
 	}
 
-	public static <T> ResultData returnData(int dataCount, FrontRequestParam frontRequestParam, Set<T> list) {
-		// 定义输出MAP
-		Map<String, Object> ret = new HashMap<>();
-		ret.put("object", list);
-		if (frontRequestParam == null){
-			return UtilParm.resultData(1, "ok", ret);
-		}
-		int pagesCount = (int) Math.ceil(dataCount / 1.0 / frontRequestParam.getPageDataNumber());
-		pagesCount = pagesCount <= 0 ? 1 : pagesCount;
-		if (list == null || list.size() <= 0) {
-			return UtilParm.resultData(0, "暂无数据", null);
+    /**
+     * @param dataCount         条数
+     * @param frontRequestParam
+     * @param list              对象集合
+     * @return ResultData 返回类型
+     * @throws
+     * @Description: 返回分页数据
+     * @Title: returnData
+     * @date 2019年2月25日 下午5:07:12
+     */
+    public static <T> ResultData returnData(int dataCount, FrontRequestParam frontRequestParam, Collection<T> list) {
+        // 定义输出MAP
+        Map<String, Object> ret = new HashMap<>(5);
+        ret.put("object", list);
+        if (frontRequestParam == null) {
+            return UtilParm.resultData(1, "ok", ret);
+        }
+        int pagesCount = (int) Math.ceil(dataCount / 1.0 / frontRequestParam.getPageDataNumber());
+        pagesCount = pagesCount <= 0 ? 1 : pagesCount;
+        if (list == null || list.size() <= 0) {
+            return UtilParm.resultData(0, "暂无数据", null);
 		}
 
 		ret.put("dataCount", dataCount);
@@ -354,45 +326,6 @@ public class UtilTools {
 		value.remove("object");
 	}
 
-
-	public static  <T> List<T> reList(List list, Class<T> clazz) throws Exception {
-		GsonManager gm = GsonManager.getIns();
-
-		List<T> lsit = new ArrayList<T>();
-		for (Object t : list) {
-			Object jsonToAnyObject = gm.jsonToAnyObject(JSON.toJSONString(t), clazz);
-			lsit.add(clazz.cast(jsonToAnyObject));
-		}
-//	    System.out.println(lsit.toString());
-		return lsit;
-	}
-
-	public static <T> List<T> reList(JsonArray jsonArray, Class<T> clazz) throws Exception{
-		GsonManager gm = GsonManager.getIns();
-		List<T> list = new ArrayList<>();
-		for (JsonElement jsonElement : jsonArray){
-			T t = gm.jsonToAnyObject(gm.objectToJsonStr(jsonElement), clazz);
-			list.add(t);
-		}
-		return list;
-	}
-
-	/**@Description: (将查询分页条件转为map)
-	 * @return
-	 * @param
-	 * @throws
-	 */
-	public Map<String,Object> paramToMap(String param) throws Exception{
-		FrontRequestParam frontRequestParam = getObject(param,FrontRequestParam.class);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("whereParam", praseWhereParam(frontRequestParam.getWheres()));
-		if(frontRequestParam.getPage()!=0) {
-			analysisPagesParam(frontRequestParam);
-			map.put("startIndex", frontRequestParam.getStartIndex());
-			map.put("endIndex", frontRequestParam.getEndIndex());
-		}
-	return map;
-	}
 
 
 	/**
@@ -540,44 +473,44 @@ public class UtilTools {
 	}
 
 	public static <T> T parseValueAttribute(String param,String attributeName,TypeReference<T> typeReference) throws WrongStateException {
-		T t = null;
-		JSONObject value = JSON.parseObject(param).getJSONObject("value");
-		if (value==null){
-			throw new NullPointerException("Empty value");
-		}
-		String attribute = value.getString(attributeName);
-		if (typeReference.getType().getTypeName().equals("java.lang.String")){
-			throw new WrongStateException("String can not be parsed");
-		}
-		if (StringUtils.isBlank(attribute)){
-			throw new NullPointerException("No such attribute["+attributeName+"]");
+        T t;
+        JSONObject value = JSON.parseObject(param).getJSONObject("value");
+        if (value == null) {
+            throw new NullPointerException("Empty value");
+        }
+        String attribute = value.getString(attributeName);
+        if (typeReference.getType().getTypeName().equals("java.lang.String")) {
+            throw new WrongStateException("String can not be parsed");
+        }
+        if (StringUtils.isBlank(attribute)) {
+            throw new NullPointerException("No such attribute["+attributeName+"]");
 		}
 		t = JSON.parseObject(attribute, typeReference);
 		if (t==null){
 			throw new NullPointerException("Empty object");
-		}
-		return t;
-	}
+        }
+        return t;
+    }
 
-	public static String parseValueAttributeString(String param,String attributeName){
-		JSONObject value = JSON.parseObject(param).getJSONObject("value");
-		if (value==null){
-			throw new NullPointerException("empty value");
-		}
-		return value.getString(attributeName);
-	}
-
-
-	public static <T> boolean emptyList(List<T> list){
-		return list == null || list.isEmpty();
-	}
+    public static String parseValueAttributeString(String param, String attributeName) {
+        JSONObject value = JSON.parseObject(param).getJSONObject("value");
+        if (value == null) {
+            throw new NullPointerException("empty value");
+        }
+        return value.getString(attributeName);
+    }
 
 
-	public static void compressFile(File file, OutputStream outputStream) throws IOException {
+    public static boolean isEmptyList(List<Object> list) {
+        return list == null || list.isEmpty();
+    }
 
-		byte[] buf = new byte[1024];
 
-		ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream,StandardCharsets.UTF_8);
+    public static void compressFile(File file, OutputStream outputStream) throws IOException {
+
+        byte[] buf = new byte[1024];
+
+        ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream,StandardCharsets.UTF_8);
 
 		zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
 
@@ -666,37 +599,50 @@ public class UtilTools {
 		return lsit;
 	}
 
-	private static <T> void copyAttr(T t,Map<String,Object> source) throws IllegalAccessException {
+    private static <T> void copyAttr(T t,Map<String,Object> source) throws IllegalAccessException {
 
-		Class<?> tClass = t.getClass();
-		//获取所有属性
-		List<Field> allField = ReflexUtil.getAllField(tClass);
+        Class<?> tClass = t.getClass();
+        //获取所有属性
+        List<Field> allField = ReflexUtil.getAllField(tClass);
 
-		Set<String> set = source.keySet();
+        Set<String> set = source.keySet();
 
-		for (Field declaredField : allField) {
-			for (String key : set) {
-				//不区分大小写比较  若是一样属性名 并且 值为空
-				if (declaredField.getName().equals(key)){
-					//设置可访问
-					declaredField.setAccessible(true);
-					if (declaredField.get(t) != null){
-						break;
-					}
-					//设置属性值
-					Object value = source.get(key);
-					if (value != null && declaredField.getType().getName().contains("BigDecimal")){
-						declaredField.set(t,new BigDecimal(String.valueOf(value)));
-					}else if (value != null && declaredField.getType().getName().startsWith("java.lang")){
-						declaredField.set(t,value);
-					}else if(value == null && declaredField.getType().getName().startsWith("java")) {
-						declaredField.set(t,null);
-					}else{
-						throw new TransferException("数据转换失败 "+ declaredField.getType().getName());
-					}
-					break;
-				}
-			}
-		}
-	}
+        for (Field declaredField : allField) {
+            for (String key : set) {
+                //不区分大小写比较  若是一样属性名 并且 值为空
+                if (declaredField.getName().equals(key)){
+                    //设置可访问
+                    declaredField.setAccessible(true);
+                    if (declaredField.get(t) != null){
+                        break;
+                    }
+                    //设置属性值
+                    Object value = source.get(key);
+                    if (value != null && declaredField.getType().getName().contains("BigDecimal")){
+                        declaredField.set(t,new BigDecimal(String.valueOf(value)));
+                    }else if (value != null && declaredField.getType().getName().startsWith("java.lang")) {
+                        declaredField.set(t, value);
+                    } else if (value == null && declaredField.getType().getName().startsWith("java")) {
+                        declaredField.set(t, null);
+                    } else {
+                        throw new TransferException("数据转换失败 " + declaredField.getType().getName());
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    public static Map<String, Object> getArgs(FrontRequestParam frontRequestParam) {
+        Map<String, Object> args = new HashMap<>();
+        if (frontRequestParam == null) {
+            return args;
+        }
+        if (frontRequestParam.getPage() != 0) {
+            analysisPagesParam(frontRequestParam);
+            args.put("startIndex", frontRequestParam.getStartIndex());
+            args.put("endIndex", frontRequestParam.getEndIndex());
+        }
+        return args;
+    }
 }

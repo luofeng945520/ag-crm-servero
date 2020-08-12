@@ -1,10 +1,7 @@
 package com.cn.ag.data.domain.sd.qx;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -37,6 +34,21 @@ public class Roles implements Serializable {
      * 分边(门店/工厂/...)
      */
     private Integer side;
+
+    /*  虚拟字段  */
+    /**
+     * 系统
+     */
+    private List<System> systemList;
+
+    public List<System> getSystemList() {
+        return systemList;
+    }
+
+    public Roles setSystemList(List<System> systemList) {
+        this.systemList = systemList;
+        return this;
+    }
 
     public Long getId() {
         return id;

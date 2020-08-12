@@ -328,4 +328,21 @@
     </select>
 
 
+    <!-- 自定义 -->
+
+    <select id="checkUserPresence" parameterType="com.cn.ag.data.domain.sd.qx.Users" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ag_users
+        <where>
+            <if test="userName != null">
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null">
+                and password = #{password,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

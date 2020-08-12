@@ -2,7 +2,10 @@ package com.cn.ag.services.qx.impl;
 
 import com.cn.ag.data.domain.sd.qx.Roles;
 import com.cn.ag.data.dao.interf.qx.RolesMapper;
+import com.cn.ag.data.domain.sd.qx.Users;
 import com.cn.ag.services.qx.RolesService;
+import com.cn.ag.utils.UtilParm;
+import com.cn.ag.utils.UtilTools;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,8 +74,19 @@ public class RolesServiceImpl implements RolesService {
     /**
      * 获取结果
      */
-    public ResultData lists(FrontRequestParam frontRequestParam) {
-        return null;
+    public ResultData lists(FrontRequestParam frontRequestParam, Users tokenUser) {
+        Map<String, Object> args = UtilTools.getArgs(frontRequestParam);
+
+
+        int i = rolesMapper.countSize(args);
+        if (i == 0) {
+            return UtilParm.resultData(0, "暂无数据");
+        }
+
+        List<Roles> agRoles = rolesMapper.selectByPaging(args);
+
+
+        return UtilTools.returnData(i, frontRequestParam, agRoles);
     }
 
 }

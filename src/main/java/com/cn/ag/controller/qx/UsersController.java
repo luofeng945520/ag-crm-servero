@@ -1,5 +1,8 @@
 package com.cn.ag.controller.qx;
 
+import com.cn.ag.data.domain.sd.qx.Users;
+import com.cn.ag.utils.UtilParm;
+import com.cn.ag.utils.UtilTools;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,8 +37,16 @@ public class UsersController {
      * 新增
      */
     @RequestMapping(value = "/add", produces = "application/json")
-    public ResultData add(HttpServletRequest request, String param) {
-        return null;
+    public ResultData add(HttpServletRequest request, String param) throws Exception {
+        // 获取请求中的用户
+        Users tokenUser = (Users) request.getAttribute("tokenUser");
+
+        Users users = UtilTools.getObject(param, Users.class);
+        boolean add = usersService.add(users, tokenUser);
+        if (add) {
+            return UtilParm.resultData(1, "新增成功");
+        }
+        return UtilParm.resultData(0, "新增失败");
     }
 
     /**

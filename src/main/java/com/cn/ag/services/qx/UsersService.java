@@ -2,6 +2,7 @@ package com.cn.ag.services.qx;
 
 import com.cn.ag.data.domain.sd.qx.Users;
 
+import com.cn.ag.exception.InsertFailedException;
 import com.cn.ff.utils.comm.support.FrontRequestParam;
 import com.cn.ff.utils.comm.support.ResultData;
 
@@ -37,7 +38,7 @@ public interface UsersService {
     /**
      * 添加单个
      */
-    boolean add(Users users);
+    boolean add(Users users, Users tokenUser) throws InsertFailedException;
 
     /**
      * 批量添加

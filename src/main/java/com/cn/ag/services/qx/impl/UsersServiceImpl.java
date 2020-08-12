@@ -2,7 +2,9 @@ package com.cn.ag.services.qx.impl;
 
 import com.cn.ag.data.domain.sd.qx.Users;
 import com.cn.ag.data.dao.interf.qx.UsersMapper;
+import com.cn.ag.exception.InsertFailedException;
 import com.cn.ag.services.qx.UsersService;
+import com.cn.ag.utils.UtilParm;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -56,7 +58,14 @@ public class UsersServiceImpl implements UsersService {
     /**
      * 添加单个
      */
-    public boolean add(Users users) {
+    public boolean add(Users users, Users tokenUser) throws InsertFailedException {
+        //检查账号是否存在
+        Users userPresence = usersMapper.checkUserPresence(users);
+        if (userPresence != null) {
+            throw new InsertFailedException("该账号已存在");
+        }
+
+
         return usersMapper.insertSelective(users) > 0;
     }
 

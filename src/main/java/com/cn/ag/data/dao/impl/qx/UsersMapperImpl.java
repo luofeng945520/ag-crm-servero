@@ -60,4 +60,9 @@ public class UsersMapperImpl extends MapperHelper<Users> implements UsersMapper 
         return countHelper(map);
     }
 
+    @Override
+    public Users checkUserPresence(Users users) {
+        return selectOneHelper(users);
+    }
+
 }

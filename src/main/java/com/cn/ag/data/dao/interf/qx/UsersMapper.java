@@ -33,4 +33,13 @@ public interface UsersMapper {
     List<Users> selectByPagingFromContinuous(Map<String, Object> map);
 
     int countSizeFromContinuous(Map<String, Object> map);
+
+    /**
+     * @throws 2020/7/14 21:57
+     * @Description: 查询用户
+     * @Param [users]
+     * @Return com.cn.ag.data.domain.sd.qx.Users
+     * @Author milk
+     */
+    Users checkUserPresence(Users users);
 }

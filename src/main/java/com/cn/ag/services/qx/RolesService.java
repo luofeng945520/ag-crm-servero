@@ -2,6 +2,7 @@ package com.cn.ag.services.qx;
 
 import com.cn.ag.data.domain.sd.qx.Roles;
 
+import com.cn.ag.data.domain.sd.qx.Users;
 import com.cn.ff.utils.comm.support.FrontRequestParam;
 import com.cn.ff.utils.comm.support.ResultData;
 
@@ -47,5 +48,5 @@ public interface RolesService {
     /**
      * 获取结果
      */
-    ResultData lists(FrontRequestParam frontRequestParam);
+    ResultData lists(FrontRequestParam frontRequestParamd, Users tokenUser);
 }
