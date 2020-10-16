@@ -67,7 +67,7 @@ public class CodeGenerator {
     /**
      * MapperImpl
      */
-    public static final String MAPPER_IMPL_PATH = "entity.impl";
+    public static final String MAPPER_IMPL_PATH = "mapper.impl";
     /**
      * MapperXML
      */
@@ -238,7 +238,7 @@ public class CodeGenerator {
                 //驼峰转连字符
                 .setControllerMappingHyphenStyle(true)
                 //表名前缀  生成类文件会去掉表前缀
-//                .setTablePrefix(TABLE_PREFIX)
+                .setTablePrefix(TABLE_PREFIX)
                 //设置实体类的父类
                 .setSuperEntityClass("");
         generator.setStrategy(strategy);
