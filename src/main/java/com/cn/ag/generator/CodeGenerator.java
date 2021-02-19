@@ -35,7 +35,7 @@ public class CodeGenerator {
     /**
      * 数据库 URL
      */
-    public static final String URL = "jdbc:mysql://192.168.200.27:3306/ag_sd_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
+    public static final String URL = "jdbc:mysql://192.168.200.27:3306/scdata_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
     /**
      * 数据库驱动
      */
@@ -238,7 +238,7 @@ public class CodeGenerator {
                 //驼峰转连字符
                 .setControllerMappingHyphenStyle(true)
                 //表名前缀  生成类文件会去掉表前缀
-                .setTablePrefix(TABLE_PREFIX)
+//                .setTablePrefix(TABLE_PREFIX)
                 //设置实体类的父类
                 .setSuperEntityClass("");
         generator.setStrategy(strategy);
@@ -267,7 +267,7 @@ public class CodeGenerator {
                 //mapperImpl
                 map.put("superMapperImplPkg", "com.cn.ag.data.dao.MapperHelper;");
                 //继承 mybatis plus 的类
-                map.put("extend", false);
+                map.put("extend", true);
                 this.setMap(map);
             }
         };

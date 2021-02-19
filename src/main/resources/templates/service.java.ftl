@@ -5,8 +5,8 @@ import ${package.Entity}.${entity};
     import ${superServiceClassPackage};
 </#if>
 
-import com.cn.ff.utils.comm.support.FrontRequestParam;
-import com.cn.ff.utils.comm.support.ResultData;
+<#--import com.cn.ff.utils.comm.support.FrontRequestParam;-->
+<#--import com.cn.ff.utils.comm.support.ResultData;-->
 
 import java.util.List;
 import java.util.Map;
