@@ -35,7 +35,7 @@ public class CodeGenerator {
     /**
      * 数据库 URL
      */
-    public static final String URL = "jdbc:mysql://192.168.200.27:3306/scdata_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
+    public static final String URL = "jdbc:mysql://127.0.0.1:3306/scdata_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
     /**
      * 数据库驱动
      */
@@ -46,6 +46,7 @@ public class CodeGenerator {
     public static final String USERNAME = "root";
     /**
      * 数据库 密码
+     *
      */
     public static final String PASSWORD = "abc-123";
 
@@ -137,7 +138,7 @@ public class CodeGenerator {
     public static void main(String[] args) {
         String userDir = System.getProperty("user.dir");
         System.out.println("项目所处目录：" + userDir);
-        userDir = "G:/";// + PROJECT_DIR
+        userDir = "/Users/luofeng/Desktop/";// + PROJECT_DIR
 //        userDir += PROJECT_DIR;
         generator(userDir);
 
