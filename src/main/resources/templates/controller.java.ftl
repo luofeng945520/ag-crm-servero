@@ -1,8 +1,13 @@
 package ${package.Controller};
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.rhineetam.ag.entity.AgUsers;
+import com.rhineetam.ag.utils.UtilTools;
 import ${package.Service}.${table.serviceName};
 <#if restControllerStyle>
     import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +21,12 @@ import ${package.Service}.${table.serviceName};
 </#if>
 <#if swagger2>
     import io.swagger.annotations.Api;
+    import io.swagger.annotations.ApiOperation;
+    import springfox.documentation.annotations.ApiIgnore;
 </#if>
 
-import com.cn.ff.utils.comm.support.FrontRequestParam;
-import com.cn.ff.utils.comm.support.ResultData;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 * @Date ${cfg.date}
@@ -35,9 +40,9 @@ import javax.servlet.http.HttpServletRequest;
     @CrossOrigin(origins = "*")
 </#if>
 <#if swagger2>
-    @Api(description="${table.comment!}")
+    @Api(description="${table.comment!}",value="${table.comment!}", tags="${table.comment!}控制层")
 </#if>
-@RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping(value = "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>", produces = "application/json")
 <#if kotlin>
     class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
@@ -55,34 +60,79 @@ import javax.servlet.http.HttpServletRequest;
     /**
     * 新增
     */
-    @RequestMapping(value = "/add", produces = "application/json")
-    public ResultData add(HttpServletRequest request,String param){
-    return null;
+    <#if swagger2>
+        @ApiOperation(
+        value = "新增${table.comment!}",
+        notes = "参数->${table.comment!}对象"
+        )
+    </#if>
+    @PostMapping(value = "/add", produces = "application/json")
+    public ResultData<${cfg.String}> add(@RequestHeader <#if swagger2> @ApiIgnore </#if> String token, @RequestBody ${entity} ${"${entity}"?uncap_first}){
+    AgUsers user = UtilTools.getUserFromToken(token);
+    ${"${entity}"?uncap_first}.setCreatedBy(user.getId());
+    if (${"${table.serviceName}"?uncap_first}.save(${"${entity}"?uncap_first})) {
+    return ResultData.ok("新增成功");
+    }
+    return ResultData.ok("新增失败");
     }
 
     /**
     * 查询
     */
-    @RequestMapping(value = "/list", produces = "application/json")
-    public ResultData list(HttpServletRequest request,String param){
-    return null;
+    <#if swagger2>
+        @ApiOperation(
+        value = "分页查询${table.comment!}",
+        notes = "参数->查询参数"
+        )
+    </#if>
+    @PostMapping(value = "/list", produces = "application/json")
+    public ResultData< IPage <${entity}>> list(@RequestBody ReqParamPlus<${entity}> proFrontReqParamPlus){
+    QueryWrapper<${entity}> parse = ReqParamParser.parse(proFrontReqParamPlus, ${entity}.class);
+    IPage<${entity}> page = agQuotationStrategyService.page(proFrontReqParamPlus, parse);
+        return ResultData.ok(page);
     }
 
     /**
     * 修改
     */
-    @RequestMapping(value = "/modify", produces = "application/json")
-    public ResultData modify(HttpServletRequest request,String param){
-    return null;
+    <#if swagger2>
+        @ApiOperation(
+        value = "修改${table.comment!}",
+        notes = "参数->${table.comment!}对象"
+        )
+    </#if>
+    @PostMapping(value = "/modify", produces = "application/json")
+    public ResultData<${cfg.String}> modify(@RequestHeader @ApiIgnore String token, @RequestBody ${entity} ${"${entity}"?uncap_first}){
+    AgUsers user = UtilTools.getUserFromToken(token);
+    ${"${entity}"?uncap_first}.setModifiedBy(user.getId());
+    ${"${entity}"?uncap_first}.setModifiedTime(System.currentTimeMillis());
+    if (${"${table.serviceName}"?uncap_first}.updateById(${"${entity}"?uncap_first})) {
+    return ResultData.ok("修改成功");
+    }
+    return ResultData.ok("修改失败");
     }
 
+<#list table.fields as field>
+    <#if field.keyFlag>
     /**
     * 删除
     */
-    @RequestMapping(value = "/remove", produces = "application/json")
-    public ResultData remove(HttpServletRequest request,String param){
-    return null;
-    }
+    <#if swagger2>
+        @ApiOperation(
+        value = "删除${table.comment!}",
+        notes = "参数->${table.comment!}id集合"
+        )
+    </#if>
+    @PostMapping(value = "/remove", produces = "application/json")
+    public ResultData<${cfg.String}> remove(@RequestParam List<${field.propertyType}> ids){
+        if (${"${table.serviceName}"?uncap_first}.removeByIds(ids)) {
+        return ResultData.ok("删除成功");
+        }
+        return ResultData.ok("删除失败");
+        }
+    </#if>
+</#list>
+
 
 
     }

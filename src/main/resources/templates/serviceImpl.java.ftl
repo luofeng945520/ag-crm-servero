@@ -35,68 +35,70 @@ import java.util.Map;
 <#--    @Qualifier("${"${table.mapperName}Impl"?uncap_first}")-->
     @Resource
     private ${table.mapperName} ${"${table.mapperName}"?uncap_first};
+    <#if cfg.needXML>
+        <#list table.fields as field>
+            <#if field.keyFlag>
+                /**
+                * 获取单个对象
+                */
+                @Override
+                public ${entity} get(${field.propertyType} id){
+                return ${"${table.mapperName}"?uncap_first}.selectByPrimaryKey(id);
+                }
+
+                /**
+                * 通过主键选择性修改
+                */
+                @Override
+                public boolean modifyByPrimaryKeySelective(${entity} ${"${entity}"?uncap_first}){
+                return ${"${table.mapperName}"?uncap_first}.updateByPrimaryKeySelective(${"${entity}"?uncap_first}) > 0;
+                }
+
+                /**
+                * 通过主键删除
+                */
+                @Override
+                public boolean removeByPrimaryKey(${field.propertyType} id){
+                return ${"${table.mapperName}"?uncap_first}.deleteByPrimaryKey(id) > 0;
+                }
+            </#if>
+        </#list>
+
+        /**
+        * 获取多个对象
+        */
+        @Override
+        public List<${entity}> list(Map<${"String"},Object> map){
+        return ${"${table.mapperName}"?uncap_first}.selectByPaging(map);
+        }
+
+        /**
+        * 添加单个
+        */
+        @Override
+        public boolean add(${entity} ${"${entity}"?uncap_first}){
+        return  ${"${table.mapperName}"?uncap_first}.insertSelective(${"${entity}"?uncap_first}) > 0;
+        }
+
+        /**
+        * 批量添加
+        */
+        @Override
+        public boolean addBatch(List<${entity}> ${"${entity}"?uncap_first}List){
+        //一次全部插入 若是数据过多 需要重写
+        return  ${"${table.mapperName}"?uncap_first}.insertBatch(${"${entity}"?uncap_first}List) > 0;
+        }
+
+        /**
+        * 获取结果
+        */
+        @Override
+        public ResultData lists(FrontRequestParam frontRequestParam){
+        return null;
+        }
+    </#if>
 
 
-    <#list table.fields as field>
-        <#if field.keyFlag>
-            /**
-            * 获取单个对象
-            */
-            @Override
-            public ${entity} get(${field.propertyType} id){
-            return ${"${table.mapperName}"?uncap_first}.selectByPrimaryKey(id);
-            }
-
-            /**
-            * 通过主键选择性修改
-            */
-            @Override
-            public boolean modifyByPrimaryKeySelective(${entity} ${"${entity}"?uncap_first}){
-            return ${"${table.mapperName}"?uncap_first}.updateByPrimaryKeySelective(${"${entity}"?uncap_first}) > 0;
-            }
-
-            /**
-            * 通过主键删除
-            */
-            @Override
-            public boolean removeByPrimaryKey(${field.propertyType} id){
-            return ${"${table.mapperName}"?uncap_first}.deleteByPrimaryKey(id) > 0;
-            }
-        </#if>
-    </#list>
-
-    /**
-    * 获取多个对象
-    */
-    @Override
-    public List<${entity}> list(Map<${"String"},Object> map){
-    return ${"${table.mapperName}"?uncap_first}.selectByPaging(map);
-    }
-
-    /**
-    * 添加单个
-    */
-    @Override
-    public boolean add(${entity} ${"${entity}"?uncap_first}){
-    return  ${"${table.mapperName}"?uncap_first}.insertSelective(${"${entity}"?uncap_first}) > 0;
-    }
-
-    /**
-    * 批量添加
-    */
-    @Override
-    public boolean addBatch(List<${entity}> ${"${entity}"?uncap_first}List){
-    //一次全部插入 若是数据过多 需要重写
-    return  ${"${table.mapperName}"?uncap_first}.insertBatch(${"${entity}"?uncap_first}List) > 0;
-    }
-
-    /**
-    * 获取结果
-    */
-    @Override
-    public ResultData lists(FrontRequestParam frontRequestParam){
-    return null;
-    }
 
     }
 </#if>

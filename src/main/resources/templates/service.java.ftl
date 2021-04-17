@@ -20,6 +20,7 @@ import java.util.Map;
 <#else>
     public interface ${table.serviceName} <#if cfg.extend>extends ${superServiceClass}<${entity}></#if> {
 
+<#if cfg.needXML>
     <#list table.fields as field>
         <#if field.keyFlag>
             /**
@@ -58,5 +59,7 @@ import java.util.Map;
     * 获取结果
     */
     ResultData lists(FrontRequestParam frontRequestParam);
+
+</#if>
     }
 </#if>

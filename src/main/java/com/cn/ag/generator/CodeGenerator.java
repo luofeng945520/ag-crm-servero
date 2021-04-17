@@ -35,7 +35,7 @@ public class CodeGenerator {
     /**
      * 数据库 URL
      */
-    public static final String URL = "jdbc:mysql://127.0.0.1:3306/scdata_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
+    public static final String URL = "jdbc:mysql://127.0.0.1:3306/ag_sd_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useNewIO=true&useSSL=true";
     /**
      * 数据库驱动
      */
@@ -49,9 +49,14 @@ public class CodeGenerator {
      *
      */
     public static final String PASSWORD = "abc-123";
-
+    /**
+     * 表前缀
+     */
     public static final String TABLE_PREFIX = "ag_";
-
+    /**
+     * 是否需要XML实现基础方法
+     */
+    public static final Boolean NEED_XML = false;
 
     /**
      * 父包名
@@ -269,6 +274,8 @@ public class CodeGenerator {
                 map.put("superMapperImplPkg", "com.cn.ag.data.dao.MapperHelper;");
                 //继承 mybatis plus 的类
                 map.put("extend", true);
+                //是否需要XML实现基础方法
+                map.put("needXML", NEED_XML);
                 this.setMap(map);
             }
         };
