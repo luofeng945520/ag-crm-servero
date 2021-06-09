@@ -29,7 +29,7 @@ public class MyTypeConvert implements ITypeConvert {
         } else if (t.contains("bit")) {
             return MyColumnType.BOOLEAN;
         } else if (t.contains("decimal")) {
-            return MyColumnType.BIG_DECIMAL;
+            return MyColumnType.DECIMAL;
         } else if (t.contains("clob")) {
             return MyColumnType.CLOB;
         } else if (t.contains("blob")) {

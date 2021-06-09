@@ -56,7 +56,7 @@ public class CodeGenerator {
     /**
      * 是否需要XML实现基础方法
      */
-    public static final Boolean NEED_XML = false;
+    public static final boolean NEED_XML = false;
 
     /**
      * 父包名
@@ -165,6 +165,8 @@ public class CodeGenerator {
         GlobalConfig globalConfig = new GlobalConfig();
         //设置文件输出目录
         globalConfig.setOutputDir(dir)
+                //覆盖文件
+                .setFileOverride(true)
                 //作者
                 .setAuthor("milk")
                 //是否打开输出目录

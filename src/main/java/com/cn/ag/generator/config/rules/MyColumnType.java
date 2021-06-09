@@ -50,7 +50,7 @@ public enum MyColumnType implements IColumnType {
     OBJECT("Object", null),
     DATE("Date", "java.util.Date"),
     BIG_INTEGER("BigInteger", "java.math.BigInteger"),
-    BIG_DECIMAL("BigDecimal", "java.math.BigDecimal");
+    DECIMAL("BigDecimal", "java.math.BigDecimal");
 
     /**
      * 类型

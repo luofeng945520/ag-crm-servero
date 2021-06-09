@@ -61,13 +61,13 @@ public class ${entity} implements Serializable {
     </#if>
     <#if field.keyFlag>
     <#--主键-->
-    <#--        <#if field.keyIdentityFlag>-->
-    <#--    @TableId(value = "${field.name}", type = IdType.AUTO)-->
-    <#--        <#elseif idType??>-->
-    <#--    @TableId(value = "${field.name}", type = IdType.${idType})-->
-    <#--        <#elseif field.convert>-->
-    <#--    @TableId(${field.name})-->
-    <#--        </#if>-->
+            <#if field.keyIdentityFlag>
+        @TableId(value = "${field.name}", type = IdType.AUTO)
+            <#elseif idType??>
+        @TableId(value = "${field.name}", type = IdType.${idType})
+            <#elseif field.convert>
+        @TableId(${field.name})
+            </#if>
     <#elseif field.fill??>
     <#-- -----   存在字段填充设置   ----->
         <#if field.convert>
